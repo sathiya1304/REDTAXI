@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RedTaxi - Convenient Travel in Your Pocket</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; min-width: 1440px; background: #fff; color: #222; }
+
+/* HEADER */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  background: #fff; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 60px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+}
+.nav-logo { display: flex; align-items: center; gap: 8px; }
+.nav-logo-box {
+  width: 36px; height: 36px; background: #D32222; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 900; font-size: 18px; font-style: italic;
+}
+.nav-logo-text { font-size: 20px; font-weight: 800; color: #D32222; }
+nav { display: flex; align-items: center; gap: 28px; }
+nav a { text-decoration: none; font-size: 14px; font-weight: 500; color: #333; }
+nav a.active { color: #D32222; }
+.btn-yellow {
+  background: #FFC107; color: #000; font-weight: 700; font-size: 14px;
+  padding: 10px 20px; border-radius: 6px; text-decoration: none;
+}
+
+/* HERO */
+.hero { margin-top: 64px; position: relative; height: 520px; overflow: hidden; }
+.hero-bg { width: 100%; height: 100%; object-fit: cover; object-position: center center; }
+.hero-content {
+  position: absolute; right: 0; top: 0; width: 54%; height: 100%;
+  background: linear-gradient(to right, rgba(160,20,20,0) 0%, rgba(185,22,22,0.9) 22%, rgba(185,22,22,0.97) 100%);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 60px 80px 60px 40px;
+}
+.hero-content h1 { font-size: 38px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+.hero-content p { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.6; max-width: 380px; margin-bottom: 28px; }
+.store-buttons { display: flex; gap: 12px; }
+.store-btn {
+  display: flex; align-items: center; gap: 10px;
+  background: #111; color: #fff; padding: 10px 16px; border-radius: 8px; text-decoration: none;
+  min-width: 140px;
+}
+.store-btn-text small { display: block; font-size: 9px; color: rgba(255,255,255,0.65); }
+.store-btn-text strong { font-size: 13px; display: block; }
+.store-icon { font-size: 22px; }
+
+/* BOOKING BAR */
+.booking-section { background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.booking-tabs { display: flex; border-bottom: 1px solid #eee; padding: 0 60px; }
+.booking-tab {
+  padding: 16px 24px; font-size: 14px; font-weight: 600; color: #888;
+  cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.booking-tab.active { color: #D32222; border-bottom-color: #D32222; }
+.booking-form { display: flex; align-items: flex-end; gap: 12px; padding: 18px 60px 22px; }
+.form-group { flex: 1; }
+.form-group label { display: block; font-size: 11px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-group input, .form-group select {
+  width: 100%; border: 1px solid #ddd; border-radius: 6px;
+  padding: 10px 12px; font-size: 13px; color: #333; outline: none;
+}
+.form-group input:focus, .form-group select:focus { border-color: #D32222; }
+.btn-submit {
+  background: #D32222; color: #fff; border: none;
+  padding: 12px 36px; border-radius: 6px; font-size: 15px; font-weight: 700; cursor: pointer;
+}
+
+/* TRIP TYPES */
+.trip-types { padding: 64px 60px; background: #fff; }
+.section-heading { font-size: 30px; font-weight: 700; color: #222; margin-bottom: 36px; }
+.section-heading .red { color: #D32222; }
+.trip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.trip-card { border-radius: 12px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.1); }
+.trip-card img { width: 100%; height: 200px; object-fit: cover; }
+.trip-card-body { padding: 22px; }
+.trip-card-body h3 { font-size: 19px; font-weight: 700; margin-bottom: 10px; color: #222; }
+.trip-card-body p { font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 18px; }
+.btn-red { background: #D32222; color: #fff; border: none; padding: 9px 22px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+/* CORPORATE */
+.corporate { background: #f7f7f7; padding: 64px 60px; display: flex; gap: 60px; align-items: center; }
+.corporate-img { width: 520px; height: 300px; object-fit: cover; border-radius: 12px; flex-shrink: 0; }
+.corporate-text h4 { font-size: 16px; font-weight: 700; color: #D32222; margin-bottom: 10px; }
+.corporate-text h2 { font-size: 30px; font-weight: 800; color: #222; line-height: 1.3; margin-bottom: 16px; }
+.corporate-text p { font-size: 14px; color: #666; line-height: 1.7; margin-bottom: 24px; }
+
+/* BRANDS */
+.brands { background: #fff; padding: 48px 60px; text-align: center; }
+.brands .section-heading { margin-bottom: 32px; }
+.brands-row { display: flex; align-items: center; justify-content: center; gap: 80px; }
+.brand-item { font-size: 22px; font-weight: 800; color: #444; letter-spacing: -0.5px; }
+.brand-hdfc { background: #003f88; color: #fff; padding: 8px 18px; border-radius: 4px; font-size: 18px; }
+.brand-bosch { font-size: 18px; border: 2px solid #444; padding: 6px 14px; border-radius: 4px; }
+
+/* CHENNAI BANNER */
+.chennai-banner { position: relative; height: 300px; overflow: hidden; }
+.chennai-banner img { width: 100%; height: 100%; object-fit: cover; }
+.chennai-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.58);
+  display: flex; align-items: center; padding: 0 60px;
+}
+.chennai-badge {
+  display: inline-block; background: #D32222; color: #fff;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 4px; margin-bottom: 16px;
+}
+.chennai-text h2 { font-size: 44px; font-weight: 900; color: #fff; line-height: 1.1; }
+.chennai-text h2 em { font-style: normal; color: #D32222; }
+
+/* CAB TYPES */
+.cab-types { padding: 64px 60px; background: #fff; text-align: center; }
+.cab-subtitle { font-size: 14px; color: #888; margin-top: -24px; margin-bottom: 40px; }
+.cab-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.cab-card { border: 1px solid #eee; border-radius: 16px; padding: 32px 24px; }
+.cab-card img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 20px; }
+.cab-card-name { font-size: 20px; font-weight: 700; color: #222; margin-bottom: 8px; }
+.cab-card-sub { font-size: 13px; color: #888; }
+.cab-dots { display: flex; justify-content: center; gap: 6px; margin-top: 36px; }
+.cab-dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd; }
+.cab-dot.active { background: #D32222; width: 20px; border-radius: 4px; }
+
+/* CITIES */
+.cities { background: #f7f7f7; padding: 64px 60px; display: flex; gap: 60px; align-items: flex-start; }
+.cities-left { flex: 1; }
+.cities-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 24px; margin-top: 28px; }
+.city-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #444; }
+.city-dot { width: 8px; height: 8px; background: #D32222; border-radius: 50%; flex-shrink: 0; }
+.map-container { width: 400px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+
+/* TESTIMONIALS */
+.testimonials { padding: 64px 60px; background: #fff; }
+.testimonials-header { text-align: center; margin-bottom: 16px; }
+.testimonials-header h2 { font-size: 32px; font-weight: 700; color: #222; }
+.testimonials-header h2 .red { color: #D32222; }
+.testimonials-header p { font-size: 14px; color: #888; margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+.read-more-center { text-align: center; margin: 28px 0 44px; }
+.btn-read-more {
+  display: inline-block; background: #D32222; color: #fff;
+  padding: 12px 36px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;
+}
+.reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.review-card { border: 1px solid #e8e8e8; border-radius: 12px; padding: 24px; }
+.review-stars { color: #FFC107; font-size: 14px; margin-bottom: 10px; }
+.review-quote { font-size: 40px; color: #D32222; line-height: 0.8; margin-bottom: 12px; font-family: Georgia, serif; }
+.review-text { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 20px; }
+.review-author { display: flex; align-items: center; gap: 12px; }
+.review-avatar {
+  width: 38px; height: 38px; border-radius: 50%; background: #e0e0e0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 15px; color: #555; flex-shrink: 0;
+}
+.review-name { font-size: 14px; font-weight: 600; color: #333; }
+.review-google { font-size: 12px; color: #4285F4; display: flex; align-items: center; gap: 4px; margin-top: 2px; }
+.g-icon { font-weight: 800; }
+
+/* APP SECTION */
+.app-section { background: #f7f7f7; padding: 64px 60px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+.app-section h2 { font-size: 30px; font-weight: 700; color: #222; line-height: 1.3; }
+.app-section h2 .red { color: #D32222; }
+.qr-wrapper { display: flex; gap: 32px; }
+.qr-item { text-align: center; }
+.qr-img { width: 120px; height: 120px; border-radius: 8px; }
+.qr-label { font-size: 12px; color: #666; margin-top: 8px; }
+
+/* PARTNER */
+.partner-section { background: #fff; padding: 64px 60px; display: flex; gap: 28px; }
+.partner-card { flex: 1; border: 2px solid #eee; border-radius: 16px; padding: 44px 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+.partner-info h3 { font-size: 22px; font-weight: 700; color: #222; line-height: 1.3; margin-bottom: 20px; }
+.partner-icon { flex-shrink: 0; }
+
+/* FOOTER */
+footer { background: #D32222; color: #fff; padding: 52px 60px 0; }
+.footer-main {
+  display: grid; grid-template-columns: 220px repeat(4, 1fr); gap: 40px;
+  padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.footer-brand-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.footer-logo-box {
+  width: 32px; height: 32px; background: #fff; border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+}
+.footer-logo-box span { color: #D32222; font-weight: 900; font-size: 16px; font-style: italic; }
+.footer-brand-name { font-size: 18px; font-weight: 800; color: #fff; }
+.footer-brand-desc { font-size: 13px; color: rgba(255,255,255,0.72); line-height: 1.55; }
+.footer-col h4 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 14px; }
+.footer-col a { display: block; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; margin-bottom: 8px; }
+.footer-col a:hover { color: #fff; }
+.footer-cities-section { padding: 32px 0; border-bottom: 1px solid rgba(255,255,255,0.2); }
+.footer-cities-grid { display: flex; gap: 60px; }
+.footer-city-col h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.footer-city-col a { display: block; color: rgba(255,255,255,0.72); font-size: 13px; text-decoration: none; margin-bottom: 6px; }
+.footer-bottom {
+  padding: 20px 0 20px; display: flex;
+  align-items: center; justify-content: space-between;
+}
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.7); }
+.footer-social { display: flex; gap: 12px; }
+.social-icon {
+  width: 32px; height: 32px; background: rgba(255,255,255,0.2);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  color: #fff; text-decoration: none; font-size: 13px; font-weight: 700;
+}
+.footer-legal { display: flex; gap: 20px; }
+.footer-legal a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="nav-logo">
+    <div class="nav-logo-box">R</div>
+    <span class="nav-logo-text">RedTaxi</span>
+  </div>
+  <nav>
+    <a href="#" class="active">Home</a>
+    <a href="#">About Us</a>
+    <a href="#">Corporate</a>
+    <a href="#">Cabs</a>
+    <a href="#">Bike Taxi</a>
+    <a href="#">Book a Trip</a>
+    <a href="#">Become a Partner</a>
+  </nav>
+  <a href="#" class="btn-yellow">Download App</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-bg" src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1440&q=80" alt="Taxi ride">
+  <div class="hero-content">
+    <h1>Convenient Travel<br>with RedTaxi<br>in Your Pocket</h1>
+    <p>Experience easy Pick, Book, and Ride. Fast, Book, and Ride across all your favorite destinations with comfort and style.</p>
+    <div class="store-buttons">
+      <a href="#" class="store-btn">
+        <span class="store-icon">▶</span>
+        <div class="store-btn-text">
+          <small>Get it on</small>
+          <strong>Google Play</strong>
+        </div>
+      </a>
+      <a href="#" class="store-btn">
+        <span class="store-icon"></span>
+        <div class="store-btn-text">
+          <small>Download on the</small>
+          <strong>App Store</strong>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING BAR -->
+<div class="booking-section">
+  <div class="booking-tabs">
+    <div class="booking-tab active">Oneway Trip</div>
+    <div class="booking-tab">Outstation</div>
+    <div class="booking-tab">Rental</div>
+  </div>
+  <div class="booking-form">
+    <div class="form-group">
+      <label>Pick Up</label>
+      <select><option>Select Pick Up City</option></select>
+    </div>
+    <div class="form-group">
+      <label>Drop</label>
+      <input type="text" placeholder="Enter Drop Location">
+    </div>
+    <div class="form-group">
+      <label>Date*</label>
+      <input type="text" placeholder="DD/MM/YYYY">
+    </div>
+    <div class="form-group">
+      <label>Pickup Time*</label>
+      <input type="text" placeholder="HH:MM">
+    </div>
+    <div class="form-group">
+      <label>Name*</label>
+      <input type="text" placeholder="Your Name">
+    </div>
+    <div class="form-group">
+      <label>Email*</label>
+      <input type="email" placeholder="Your Email">
+    </div>
+    <button class="btn-submit">Submit</button>
+  </div>
+</div>
+
+<!-- TRIP TYPES -->
+<section class="trip-types">
+  <h2 class="section-heading">Trip <span class="red">Types</span></h2>
+  <div class="trip-grid">
+    <div class="trip-card">
+      <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=700&q=80" alt="Airport Taxi">
+      <div class="trip-card-body">
+        <h3>Airport Taxi</h3>
+        <p>Reliable and experienced fleet, and well-maintained drivers, and well-trained taxi on time, starting your journey comfortably and on time every time you fly.</p>
+        <button class="btn-red">Book Now</button>
+      </div>
+    </div>
+    <div class="trip-card">
+      <img src="https://images.unsplash.com/photo-1590099033615-be195f8d575c?w=700&q=80" alt="Oneway Trip">
+      <div class="trip-card-body">
+        <h3>Oneway Trip</h3>
+        <p>Travel comfortably and affordably with RedTaxi's cab service and first class comfort, starting you're planning from city to city or exploring new routes.</p>
+        <button class="btn-red">Book Now</button>
+      </div>
+    </div>
+    <div class="trip-card">
+      <img src="https://images.unsplash.com/photo-1516733968668-dbdce39c4651?w=700&q=80" alt="Outstation">
+      <div class="trip-card-body">
+        <h3>Outstation</h3>
+        <p>RedTaxi offers a wide range of cab models, including in-seats, 7-seater, 14-seater, and 5-seater options. From the smallest hub buses based on your needs.</p>
+        <button class="btn-red">Book Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORPORATE -->
+<section class="corporate">
+  <img class="corporate-img" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=700&q=80" alt="Corporate Travel">
+  <div class="corporate-text">
+    <h4>Corporate</h4>
+    <h2>A ride you can count on<br>for every business needs</h2>
+    <p>RedTaxi provides a smooth riding option for business travel with 200+ vehicles in our fleet. Experience the most comfortable rides for your professional requirements and team travel needs.</p>
+    <button class="btn-red">Read More</button>
+  </div>
+</section>
+
+<!-- BRANDS -->
+<section class="brands">
+  <h2 class="section-heading">Brands <span class="red">who trust Us</span></h2>
+  <div class="brands-row">
+    <div class="brand-item" style="font-style:italic; font-size:24px;">✦ pricol</div>
+    <div class="brand-item brand-bosch">BOSCH</div>
+    <div class="brand-item">GML</div>
+    <div class="brand-item brand-hdfc">HDFC</div>
+  </div>
+</section>
+
+<!-- CHENNAI BANNER -->
+<div class="chennai-banner">
+  <img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=1440&q=80" alt="Chennai city">
+  <div class="chennai-overlay">
+    <div class="chennai-text">
+      <div class="chennai-badge">LAUNCHED IN CHENNAI</div>
+      <h2>Chennai's <em>New</em><br><em>Cab Company!</em></h2>
+    </div>
+  </div>
+</div>
+
+<!-- CAB TYPES -->
+<section class="cab-types">
+  <h2 class="section-heading" style="text-align:center; margin-bottom:12px;">Cab <span class="red">Types</span> for Every Traveler</h2>
+  <p class="cab-subtitle">Whether you need a sedan ride, a spacious minivan or a stylish sedan — we have you covered</p>
+  <div class="cab-grid">
+    <div class="cab-card">
+      <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=600&q=80" alt="Pink Taxi">
+      <div class="cab-card-name">Pink Taxi</div>
+      <div class="cab-card-sub">By Women, For Women</div>
+    </div>
+    <div class="cab-card">
+      <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=80" alt="Traveller">
+      <div class="cab-card-name">Traveller</div>
+      <div class="cab-card-sub">Your Perfect Ride for Perfect Family Trips</div>
+    </div>
+    <div class="cab-card">
+      <img src="https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=600&q=80" alt="Urbania">
+      <div class="cab-card-name">Urbania</div>
+      <div class="cab-card-sub">Luxury Travel is Just a Click Away</div>
+    </div>
+  </div>
+  <div class="cab-dots">
+    <div class="cab-dot active"></div>
+    <div class="cab-dot"></div>
+    <div class="cab-dot"></div>
+  </div>
+</section>
+
+<!-- CITIES -->
+<section class="cities">
+  <div class="cities-left">
+    <h2 class="section-heading">Our Serviceable <span class="red">Cities</span><br>in Tamil Nadu</h2>
+    <div class="cities-grid">
+      <div class="city-item"><span class="city-dot"></span> Coimbatore</div>
+      <div class="city-item"><span class="city-dot"></span> Salem</div>
+      <div class="city-item"><span class="city-dot"></span> Nilgiris</div>
+      <div class="city-item"><span class="city-dot"></span> Trichy</div>
+      <div class="city-item"><span class="city-dot"></span> Namakkal</div>
+      <div class="city-item"><span class="city-dot"></span> Madurai</div>
+      <div class="city-item"><span class="city-dot"></span> Tiruppur</div>
+      <div class="city-item"><span class="city-dot"></span> Vellore</div>
+      <div class="city-item"><span class="city-dot"></span> Erode</div>
+      <div class="city-item"><span class="city-dot"></span> Thanjavur</div>
+      <div class="city-item"><span class="city-dot"></span> Theni</div>
+      <div class="city-item"><span class="city-dot"></span> Ariyalur</div>
+      <div class="city-item"><span class="city-dot"></span> Virudhunagar</div>
+      <div class="city-item"><span class="city-dot"></span> Kallakurichi</div>
+      <div class="city-item"><span class="city-dot"></span> Tirunelveli</div>
+      <div class="city-item"><span class="city-dot"></span> Thoothukudi</div>
+      <div class="city-item"><span class="city-dot"></span> Nagercoil</div>
+      <div class="city-item"><span class="city-dot"></span> Villupuram</div>
+    </div>
+  </div>
+  <div class="map-container">
+    <svg viewBox="0 0 320 480" width="380" height="470" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M120,18 L155,14 L185,28 L205,55 L218,90 L222,130 L215,165 L228,200 L220,238 L208,272 L196,308 L178,344 L158,378 L140,415 L125,430 L110,420 L96,390 L78,355 L63,318 L54,282 L58,248 L48,212 L52,175 L60,140 L56,105 L68,72 L88,44 Z" fill="#e5e5e5" stroke="#bbb" stroke-width="1.5"/>
+      <circle cx="95" cy="95" r="7" fill="#D32222"/><circle cx="95" cy="95" r="3" fill="#fff"/>
+      <circle cx="148" cy="75" r="7" fill="#D32222"/><circle cx="148" cy="75" r="3" fill="#fff"/>
+      <circle cx="175" cy="110" r="7" fill="#D32222"/><circle cx="175" cy="110" r="3" fill="#fff"/>
+      <circle cx="78" cy="145" r="7" fill="#D32222"/><circle cx="78" cy="145" r="3" fill="#fff"/>
+      <circle cx="118" cy="158" r="7" fill="#D32222"/><circle cx="118" cy="158" r="3" fill="#fff"/>
+      <circle cx="165" cy="160" r="7" fill="#D32222"/><circle cx="165" cy="160" r="3" fill="#fff"/>
+      <circle cx="100" cy="200" r="7" fill="#D32222"/><circle cx="100" cy="200" r="3" fill="#fff"/>
+      <circle cx="148" cy="210" r="7" fill="#D32222"/><circle cx="148" cy="210" r="3" fill="#fff"/>
+      <circle cx="185" cy="230" r="7" fill="#D32222"/><circle cx="185" cy="230" r="3" fill="#fff"/>
+      <circle cx="112" cy="260" r="7" fill="#D32222"/><circle cx="112" cy="260" r="3" fill="#fff"/>
+      <circle cx="155" cy="275" r="7" fill="#D32222"/><circle cx="155" cy="275" r="3" fill="#fff"/>
+      <circle cx="130" cy="318" r="7" fill="#D32222"/><circle cx="130" cy="318" r="3" fill="#fff"/>
+      <circle cx="118" cy="360" r="7" fill="#D32222"/><circle cx="118" cy="360" r="3" fill="#fff"/>
+      <circle cx="128" cy="400" r="7" fill="#D32222"/><circle cx="128" cy="400" r="3" fill="#fff"/>
+    </svg>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-header">
+    <h2>Your <span class="red">Satisfaction</span>,<br>Our Success</h2>
+    <p>Here's what our customers have to say about the service &amp; they are equipped with both experience and value to give you a high quality and satisfying travel experience.</p>
+  </div>
+  <div class="read-more-center">
+    <a href="#" class="btn-read-more">Read More</a>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-quote">"</div>
+      <p class="review-text">Very professional and prompt service. Drivers are well behaved and very courteous. Have been using their service for a year now and they are always on time. The cab was very clean and modern if you use the app booking, very clear and simple. Highly recommended app service that has been excellent. Definitely recommended.</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:#ea4335; color:#fff;">S</div>
+        <div>
+          <div class="review-name">Sivalin Krishnamoorthy</div>
+          <div class="review-google"><span class="g-icon">G</span> Google</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-quote">"</div>
+      <p class="review-text">Great experience. Thanks for assigning a new driver on time when the booked driver had an issue. The driver Mr. Velmurugan who drove us from Coimbatore to Chennai was very professional and the journey was smooth and safe. Thanks, RedTaxi for excellent service. Thanks again.</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:#4285f4; color:#fff;">P</div>
+        <div>
+          <div class="review-name">Pragneshkumar R.</div>
+          <div class="review-google"><span class="g-icon">G</span> Google</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-quote">"</div>
+      <p class="review-text">Excellent service, the cab arrived on time and the driver was very courteous and professional. The cab was very clean and well maintained. I will definitely use RedTaxi again for my future rides and recommend to friends and family for all travel needs.</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:#34a853; color:#fff;">P</div>
+        <div>
+          <div class="review-name">Praveen</div>
+          <div class="review-google"><span class="g-icon">G</span> Google</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP DOWNLOAD -->
+<section class="app-section">
+  <div>
+    <h2>Download the <span class="red">Red Taxi App</span><br>Now!</h2>
+  </div>
+  <div class="qr-wrapper">
+    <div class="qr-item">
+      <svg class="qr-img" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <rect width="120" height="120" fill="#fff" rx="8"/>
+        <rect x="8" y="8" width="42" height="42" rx="2" fill="#000"/>
+        <rect x="13" y="13" width="32" height="32" rx="1" fill="#fff"/>
+        <rect x="18" y="18" width="22" height="22" rx="0" fill="#000"/>
+        <rect x="70" y="8" width="42" height="42" rx="2" fill="#000"/>
+        <rect x="75" y="13" width="32" height="32" rx="1" fill="#fff"/>
+        <rect x="80" y="18" width="22" height="22" rx="0" fill="#000"/>
+        <rect x="8" y="70" width="42" height="42" rx="2" fill="#000"/>
+        <rect x="13" y="75" width="32" height="32" rx="1" fill="#fff"/>
+        <rect x="18" y="80" width="22" height="22" rx="0" fill="#000"/>
+        <rect x="56" y="8" width="8" height="8" fill="#000"/>
+        <rect x="56" y="20" width="8" height="4" fill="#000"/>
+        <rect x="56" y="56" width="8" height="8" fill="#000"/>
+        <rect x="68" y="56" width="4" height="8" fill="#000"/>
+        <rect x="76" y="56" width="8" height="4" fill="#000"/>
+        <rect x="56" y="68" width="4" height="8" fill="#000"/>
+        <rect x="64" y="72" width="8" height="4" fill="#000"/>
+        <rect x="76" y="68" width="8" height="8" fill="#000"/>
+        <rect x="88" y="60" width="4" height="12" fill="#000"/>
+        <rect x="96" y="56" width="8" height="8" fill="#000"/>
+        <rect x="96" y="68" width="8" height="4" fill="#000"/>
+        <rect x="56" y="80" width="4" height="12" fill="#000"/>
+        <rect x="64" y="84" width="8" height="4" fill="#000"/>
+        <rect x="76" y="80" width="12" height="4" fill="#000"/>
+        <rect x="92" y="80" width="4" height="12" fill="#000"/>
+        <rect x="100" y="84" width="4" height="8" fill="#000"/>
+        <rect x="56" y="96" width="12" height="4" fill="#000"/>
+        <rect x="72" y="96" width="8" height="4" fill="#000"/>
+        <rect x="84" y="96" width="4" height="4" fill="#000"/>
+      </svg>
+      <div class="qr-label">Scan for Android</div>
+    </div>
+    <div class="qr-item">
+      <svg class="qr-img" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <rect width="120" height="120" fill="#fff" rx="8"/>
+        <rect x="8" y="8" width="42" height="42" rx="2" fill="#000"/>
+        <rect x="13" y="13" width="32" height="32" rx="1" fill="#fff"/>
+        <rect x="18" y="18" width="22" height="22" rx="0" fill="#000"/>
+        <rect x="70" y="8" width="42" height="42" rx="2" fill="#000"/>
+        <rect x="75" y="13" width="32" height="32" rx="1" fill="#fff"/>
+        <rect x="80" y="18" width="22" height="22" rx="0" fill="#000"/>
+        <rect x="8" y="70" width="42" height="42" rx="2" fill="#000"/>
+        <rect x="13" y="75" width="32" height="32" rx="1" fill="#fff"/>
+        <rect x="18" y="80" width="22" height="22" rx="0" fill="#000"/>
+        <rect x="56" y="8" width="4" height="12" fill="#000"/>
+        <rect x="64" y="8" width="4" height="4" fill="#000"/>
+        <rect x="56" y="24" width="8" height="4" fill="#000"/>
+        <rect x="56" y="56" width="12" height="4" fill="#000"/>
+        <rect x="72" y="56" width="4" height="12" fill="#000"/>
+        <rect x="80" y="56" width="8" height="8" fill="#000"/>
+        <rect x="92" y="56" width="8" height="4" fill="#000"/>
+        <rect x="56" y="64" width="8" height="8" fill="#000"/>
+        <rect x="68" y="68" width="4" height="8" fill="#000"/>
+        <rect x="80" y="68" width="4" height="12" fill="#000"/>
+        <rect x="88" y="68" width="12" height="4" fill="#000"/>
+        <rect x="56" y="76" width="4" height="12" fill="#000"/>
+        <rect x="64" y="80" width="8" height="4" fill="#000"/>
+        <rect x="76" y="76" width="4" height="8" fill="#000"/>
+        <rect x="84" y="80" width="8" height="4" fill="#000"/>
+        <rect x="96" y="76" width="4" height="12" fill="#000"/>
+        <rect x="56" y="92" width="12" height="4" fill="#000"/>
+        <rect x="72" y="92" width="8" height="4" fill="#000"/>
+        <rect x="84" y="92" width="4" height="8" fill="#000"/>
+        <rect x="92" y="96" width="8" height="4" fill="#000"/>
+      </svg>
+      <div class="qr-label">Scan for iOS</div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER SECTION -->
+<section class="partner-section">
+  <div class="partner-card">
+    <div class="partner-info">
+      <h3>Having a Fleet,<br>Want to Join with us?</h3>
+      <button class="btn-red">Become a Partner</button>
+    </div>
+    <div class="partner-icon">
+      <svg viewBox="0 0 140 80" width="140" height="80">
+        <rect x="10" y="30" width="95" height="32" rx="5" fill="#D32222"/>
+        <rect x="22" y="14" width="62" height="26" rx="5" fill="#b01c1c"/>
+        <rect x="26" y="18" width="54" height="18" rx="3" fill="#e8e8e8"/>
+        <circle cx="32" cy="64" r="10" fill="#222"/><circle cx="32" cy="64" r="5" fill="#888"/>
+        <circle cx="83" cy="64" r="10" fill="#222"/><circle cx="83" cy="64" r="5" fill="#888"/>
+        <rect x="100" y="36" width="18" height="18" rx="3" fill="#b01c1c"/>
+        <rect x="104" y="40" width="10" height="10" rx="1" fill="#e8e8e8"/>
+        <rect x="0" y="44" width="14" height="8" rx="3" fill="#b01c1c"/>
+      </svg>
+    </div>
+  </div>
+  <div class="partner-card">
+    <div class="partner-info">
+      <h3>Don't have a car to Drive,<br>the Door is open for you.</h3>
+      <button class="btn-red">Become a Driver</button>
+    </div>
+    <div class="partner-icon">
+      <svg viewBox="0 0 80 90" width="80" height="90">
+        <circle cx="40" cy="22" r="18" fill="#D32222"/>
+        <ellipse cx="40" cy="68" rx="28" ry="22" fill="#D32222"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-main">
+    <div>
+      <div class="footer-brand-row">
+        <div class="footer-logo-box"><span>R</span></div>
+        <span class="footer-brand-name">RedTaxi</span>
+      </div>
+      <p class="footer-brand-desc">Experience easy Pick, Book, and Ride across all your favorite destinations.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Trips</h4>
+      <a href="#">Airport Taxi</a>
+      <a href="#">Oneway Trip</a>
+      <a href="#">Outstation</a>
+      <a href="#">Rental</a>
+      <a href="#">Bike Taxi</a>
+    </div>
+    <div class="footer-col">
+      <h4>Corporate</h4>
+      <a href="#">Brand Collaboration</a>
+      <a href="#">Travel Benefits</a>
+      <a href="#">Fleet Solutions</a>
+      <a href="#">Business Account</a>
+    </div>
+    <div class="footer-col">
+      <h4>Cab Types</h4>
+      <a href="#">Pink Taxi</a>
+      <a href="#">Traveller</a>
+      <a href="#">Urbania</a>
+      <br>
+      <h4>Become a Partner</h4>
+      <a href="#">Become a Partner</a>
+      <a href="#">Become a Driver</a>
+    </div>
+    <div class="footer-col">
+      <h4>Careers</h4>
+      <a href="#">Open Positions</a>
+      <br>
+      <h4>Quick Links</h4>
+      <a href="#">About Us</a>
+      <a href="#">Support</a>
+      <a href="#">Contact Us</a>
+      <a href="#">Blog</a>
+    </div>
+  </div>
+
+  <div class="footer-cities-section">
+    <div class="footer-cities-grid">
+      <div class="footer-city-col">
+        <h4>Cabs</h4>
+        <a href="#">Chennai</a>
+        <a href="#">Coimbatore</a>
+        <a href="#">Tiruppur</a>
+        <a href="#">Salem</a>
+        <a href="#">Erode</a>
+        <a href="#">Madurai</a>
+        <a href="#">Tirunelveli</a>
+        <a href="#">Vellore</a>
+        <a href="#">Trichy</a>
+        <a href="#">Thanjavur</a>
+        <a href="#">Virudhunagar</a>
+        <a href="#">Namakkal</a>
+        <a href="#">Nagercoil</a>
+        <a href="#">Nilgiris</a>
+      </div>
+      <div class="footer-city-col">
+        <h4>Mini</h4>
+        <a href="#">Coimbatore</a>
+        <a href="#">Tiruppur</a>
+        <a href="#">Salem</a>
+        <a href="#">Erode</a>
+        <a href="#">Thanjavur</a>
+        <a href="#">Namakkal</a>
+        <a href="#">Tirunelveli</a>
+        <a href="#">Madurai</a>
+      </div>
+      <div class="footer-city-col">
+        <h4>Bike Taxi</h4>
+        <a href="#">Coimbatore</a>
+        <a href="#">Tiruppur</a>
+        <a href="#">Salem</a>
+        <a href="#">Erode</a>
+        <a href="#">Madurai</a>
+        <a href="#">Vellore</a>
+        <a href="#">Trichy</a>
+        <a href="#">Thanjavur</a>
+      </div>
+      <div class="footer-city-col">
+        <h4>Quick Links</h4>
+        <a href="#">Contact Us</a>
+        <a href="#">Support</a>
+        <a href="#">About Us</a>
+        <a href="#">Blog</a>
+        <a href="#">Careers</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-social">
+      <a href="#" class="social-icon">f</a>
+      <a href="#" class="social-icon">in</a>
+      <a href="#" class="social-icon">yt</a>
+      <a href="#" class="social-icon">tw</a>
+    </div>
+    <p>Copyright © 2024 All Rights Reserved. Red Taxi | Powered by Idea Clan | Fueled by creativity</p>
+    <div class="footer-legal">
+      <a href="#">Terms and Conditions</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
