@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RedTaxi - Convenient Travel in Your Pocket</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Segoe UI', Arial, sans-serif; min-width: 1440px; background: #fff; color: #222; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #fff; color: #222; }
 
 /* HEADER */
 header {
@@ -209,6 +210,146 @@ footer { background: #D32222; color: #fff; padding: 52px 60px 0; }
 }
 .footer-legal { display: flex; gap: 20px; }
 .footer-legal a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 12px; }
+
+/* HAMBURGER */
+.hamburger {
+  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px; z-index: 1001;
+}
+.hamburger span {
+  display: block; width: 24px; height: 2px; background: #333; border-radius: 2px;
+  transition: all 0.3s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-nav-cta { display: none; }
+
+/* TABLET — 1024px */
+@media (max-width: 1024px) {
+  header { padding: 0 24px; }
+  nav { gap: 16px; }
+  nav a { font-size: 13px; }
+  .hero-content { width: 60%; padding: 40px 40px 40px 30px; }
+  .hero-content h1 { font-size: 30px; }
+  .booking-tabs { padding: 0 24px; }
+  .booking-form { padding: 16px 24px 20px; flex-wrap: wrap; }
+  .form-group { flex: 1 1 calc(33% - 12px); min-width: 140px; }
+  .trip-types, .corporate, .brands, .cab-types, .cities,
+  .testimonials, .app-section, .partner-section { padding: 48px 24px; }
+  .corporate-img { width: 380px; height: 250px; }
+  .brands-row { gap: 40px; }
+  .footer-main { grid-template-columns: 180px repeat(4, 1fr); gap: 24px; padding: 0 24px 36px; }
+  footer { padding: 40px 24px 0; }
+  .footer-cities-grid { gap: 32px; }
+  .footer-bottom { padding: 20px 0; flex-wrap: wrap; gap: 12px; }
+}
+
+/* MOBILE — 768px */
+@media (max-width: 768px) {
+  /* Header */
+  .hamburger { display: flex; }
+  .desktop-cta { display: none; }
+  #main-nav {
+    display: none; flex-direction: column; align-items: flex-start; gap: 0;
+    position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+    background: #fff; z-index: 998; padding: 24px;
+    overflow-y: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  #main-nav.open { display: flex; }
+  #main-nav a {
+    font-size: 16px; padding: 14px 0; width: 100%;
+    border-bottom: 1px solid #f0f0f0; color: #333;
+  }
+  #main-nav a.active { color: #D32222; }
+  .mobile-nav-cta {
+    display: inline-block !important; margin-top: 20px;
+    border-bottom: none !important; background: #FFC107;
+    padding: 12px 24px !important; border-radius: 6px; font-weight: 700; width: auto !important;
+  }
+
+  /* Hero */
+  .hero { height: auto; min-height: 420px; }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-content {
+    position: relative; width: 100%; height: auto; min-height: 420px;
+    background: linear-gradient(to bottom, rgba(185,22,22,0.55) 0%, rgba(185,22,22,0.95) 50%);
+    padding: 48px 24px 40px;
+  }
+  .hero-content h1 { font-size: 26px; }
+  .hero-content p { font-size: 13px; max-width: 100%; }
+  .store-buttons { flex-direction: column; gap: 10px; }
+  .store-btn { min-width: unset; width: fit-content; }
+
+  /* Booking */
+  .booking-tabs { padding: 0 16px; overflow-x: auto; }
+  .booking-tab { white-space: nowrap; padding: 14px 16px; font-size: 13px; }
+  .booking-form { flex-direction: column; gap: 10px; padding: 16px 16px 20px; }
+  .form-group { flex: unset; width: 100%; }
+  .btn-submit { width: 100%; padding: 14px; }
+
+  /* Trip Types */
+  .trip-types, .brands, .cab-types, .testimonials { padding: 40px 16px; }
+  .trip-grid { grid-template-columns: 1fr; gap: 20px; }
+  .section-heading { font-size: 24px; margin-bottom: 24px; }
+
+  /* Corporate */
+  .corporate { flex-direction: column; padding: 40px 16px; gap: 24px; }
+  .corporate-img { width: 100%; height: 220px; flex-shrink: unset; }
+  .corporate-text h2 { font-size: 22px; }
+
+  /* Brands */
+  .brands-row { flex-wrap: wrap; gap: 24px; justify-content: center; }
+
+  /* Chennai */
+  .chennai-overlay { padding: 0 24px; }
+  .chennai-text h2 { font-size: 28px; }
+
+  /* Cab Types */
+  .cab-subtitle { margin-top: 0; }
+  .cab-grid { grid-template-columns: 1fr; gap: 16px; }
+  .cab-card { padding: 20px 16px; }
+
+  /* Cities */
+  .cities { flex-direction: column; padding: 40px 16px; gap: 32px; }
+  .map-container { width: 100%; }
+  .map-container svg { width: 100%; height: auto; }
+  .cities-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Testimonials */
+  .reviews-grid { grid-template-columns: 1fr; gap: 16px; }
+  .testimonials-header h2 { font-size: 24px; }
+
+  /* App */
+  .app-section { flex-direction: column; text-align: center; padding: 40px 16px; gap: 28px; }
+  .app-section h2 { font-size: 22px; }
+  .qr-wrapper { justify-content: center; }
+
+  /* Partner */
+  .partner-section { flex-direction: column; padding: 40px 16px; gap: 16px; }
+  .partner-card { flex-direction: column; text-align: center; padding: 32px 24px; gap: 20px; }
+  .partner-info h3 { font-size: 18px; }
+
+  /* Footer */
+  footer { padding: 40px 16px 0; }
+  .footer-main { grid-template-columns: 1fr 1fr; gap: 28px 20px; padding-bottom: 28px; }
+  .footer-cities-grid { flex-wrap: wrap; gap: 24px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 16px; padding: 20px 0; }
+  .footer-bottom p { font-size: 11px; }
+  .footer-legal { flex-wrap: wrap; gap: 12px; }
+}
+
+/* SMALL MOBILE — 480px */
+@media (max-width: 480px) {
+  .hero-content h1 { font-size: 22px; }
+  .section-heading { font-size: 22px; }
+  .footer-main { grid-template-columns: 1fr; }
+  .cities-grid { grid-template-columns: 1fr 1fr; gap: 10px 12px; }
+  .qr-wrapper { gap: 20px; }
+  .qr-img { width: 100px; height: 100px; }
+  .chennai-text h2 { font-size: 22px; }
+  .brands-row { gap: 16px; }
+}
 </style>
 </head>
 <body>
@@ -219,7 +360,7 @@ footer { background: #D32222; color: #fff; padding: 52px 60px 0; }
     <div class="nav-logo-box">R</div>
     <span class="nav-logo-text">RedTaxi</span>
   </div>
-  <nav>
+  <nav id="main-nav">
     <a href="#" class="active">Home</a>
     <a href="#">About Us</a>
     <a href="#">Corporate</a>
@@ -227,8 +368,12 @@ footer { background: #D32222; color: #fff; padding: 52px 60px 0; }
     <a href="#">Bike Taxi</a>
     <a href="#">Book a Trip</a>
     <a href="#">Become a Partner</a>
+    <a href="#" class="btn-yellow mobile-nav-cta">Download App</a>
   </nav>
-  <a href="#" class="btn-yellow">Download App</a>
+  <a href="#" class="btn-yellow desktop-cta">Download App</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </header>
 
 <!-- HERO -->
@@ -705,5 +850,19 @@ footer { background: #D32222; color: #fff; padding: 52px 60px 0; }
   </div>
 </footer>
 
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const nav = document.getElementById('main-nav');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    nav.classList.toggle('open');
+  });
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      nav.classList.remove('open');
+    });
+  });
+</script>
 </body>
 </html>
